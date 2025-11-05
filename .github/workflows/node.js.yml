@@ -135,5 +135,3 @@ jobs:
             VCS_REF=${{ env.VCS_REF }}
             BUILD_DATE=${{ env.BUILD_DATE }}
             CYCLONEDX_NPM_VERSION=${{ env.CYCLONEDX_NPM_VERSION }}
-
- 
