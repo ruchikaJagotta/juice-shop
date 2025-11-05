@@ -3,6 +3,7 @@
 
 [![Custom CI/CD Pipeline](https://github.com/ruchikaJagotta/juice-shop/actions/workflows/node.js.yml/badge.svg)](https://github.com/ruchikaJagotta/juice-shop/actions/workflows/node.js.yml)
 
+Forked [Readme_juiceshop](./README_Juiceshop.md)
 
 # API Testing - Playwright
 
