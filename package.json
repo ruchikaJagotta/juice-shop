@@ -3,6 +3,7 @@
   "version": "19.0.0",
   "private": true,
   "description": "Probably the most modern and sophisticated insecure web application",
+  "type": "module",
   "keywords": [
     "web security",
     "web application security",
@@ -72,7 +73,8 @@
     "vagrant": "cd vagrant && vagrant up",
     "sbom": "npm run sbom:json && npm run sbom:xml",
     "sbom:json": "cyclonedx-npm --omit=dev --output-format=JSON --output-file=bom.json",
-    "sbom:xml": " cyclonedx-npm --omit=dev --output-format=XML  --output-file=bom.xml"
+    "sbom:xml": " cyclonedx-npm --omit=dev --output-format=XML  --output-file=bom.xml",
+    "playwright:api": "start-server-and-test start http://localhost:3000 \"npx playwright test\""
   },
   "jest": {
     "transform": {
@@ -190,6 +192,7 @@
   "devDependencies": {
     "@cyclonedx/cyclonedx-npm": "^2.0.0||^3.0.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
+    "@playwright/test": "^1.56.1",
     "@types/chai": "^4.3.20",
     "@types/clarinet": "^0.12.3",
     "@types/compression": "^1.7.5",
@@ -261,6 +264,7 @@
     "sinon-chai": "^3.7.0",
     "socket.io-client": "^3.1.3",
     "source-map-support": "^0.5.21",
+    "start-server-and-test": "^2.1.2",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.3.3"
