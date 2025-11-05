@@ -54,6 +54,7 @@ jobs:
           npm run lint:config -- -f ./config/unsafe.yml
   api-test:
     runs-on: ${{ matrix.os }}
+    needs: [lint, docker-test, docker]
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -105,7 +106,7 @@ jobs:
         run: docker compose -f docker-compose.test.yml up --exit-code-from sut
   docker:
     if: github.repository == 'ruchikaJagotta/juice-shop' && github.event_name == 'push' && (github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master')
-    needs: [api-test, docker-test]
+    needs: [docker-test]
     runs-on: ubuntu-latest
     steps:
       - name: "Check out Git repository"
@@ -114,30 +115,10 @@ jobs:
         uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf #v3.2.0
       - name: "Set up Docker Buildx"
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 #v3.8.0
-      - name: "Login to DockerHub"
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 #v3.3.0
+      - name: "pull docker image"
+        uses: codebysandip/docker-pull-auto-action@v1.5
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: "Set tag & labels for ${{ github.ref }}"
+          docker-image: bkimminich/juice-shop
+      - name: "Run docker image"
         run: |
-          if [ "$GITHUB_REF" == "refs/heads/master" ]; then
-          echo "DOCKER_TAG=latest" >> $GITHUB_ENV
-          else
-          echo "DOCKER_TAG=snapshot" >> $GITHUB_ENV
-          fi
-          echo "VCS_REF=`git rev-parse --short HEAD`" >> $GITHUB_ENV
-          echo "BUILD_DATE=`date -u +”%Y-%m-%dT%H:%M:%SZ”`" >> $GITHUB_ENV
-      - name: "Build and push for AMD64 and ARM64 processors"
-        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 #v6.1.0
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: |
-            bkimminich/juice-shop:${{ env.DOCKER_TAG }}
-          build-args: |
-            VCS_REF=${{ env.VCS_REF }}
-            BUILD_DATE=${{ env.BUILD_DATE }}
-            CYCLONEDX_NPM_VERSION=${{ env.CYCLONEDX_NPM_VERSION }}
+           docker run --rm -p 127.0.0.1:3000:3000 bkimminich/juice-shop
