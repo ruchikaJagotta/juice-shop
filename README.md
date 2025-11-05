@@ -63,3 +63,10 @@ npx playwright test tests/auth.spec.js
 Report will be available at `http://localhost:9323/`
 
 Other reporters could be configured with playwright reporter like `allure` for enhanced reporting and trends.
+
+# Part 2 : Test plan & test cases
+
+The test plan and related test cases have been added to the project. You can find them at the links below:
+
+- [Test plan](./testplan/README.md)
+- [Test cases](./testplan/TestCases%20-%20Cover%20Letter.xlsx)
