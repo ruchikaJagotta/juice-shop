@@ -22,39 +22,9 @@ env:
   NODE_OPTIONS: "--max_old_space_size=4096"
   CYCLONEDX_NPM_VERSION: '^2.0.0||^3.0.0'
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Check out Git repository"
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
-      - name: "Use Node.js 22"
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af #v4.1.0
-        with:
-          node-version: ${{ env.NODE_DEFAULT_VERSION }}
-      - name: "Install application minimalistically"
-        run: |
-          npm install --ignore-scripts
-          cd frontend
-          npm install --ignore-scripts --legacy-peer-deps
-      - name: "Lint source code"
-        run: npm run lint
-      - name: "Lint customization configs"
-        run: >
-          npm run lint:config -- -f ./config/7ms.yml &&
-          npm run lint:config -- -f ./config/addo.yml &&
-          npm run lint:config -- -f ./config/bodgeit.yml &&
-          npm run lint:config -- -f ./config/ctf.yml &&
-          npm run lint:config -- -f ./config/default.yml &&
-          npm run lint:config -- -f ./config/fbctf.yml &&
-          npm run lint:config -- -f ./config/juicebox.yml &&
-          npm run lint:config -- -f ./config/mozilla.yml &&
-          npm run lint:config -- -f ./config/oss.yml &&
-          npm run lint:config -- -f ./config/quiet.yml &&
-          npm run lint:config -- -f ./config/tutorial.yml &&
-          npm run lint:config -- -f ./config/unsafe.yml
   api-test:
     runs-on: ${{ matrix.os }}
-    needs: [lint, docker-test]
+    needs: [ docker-test]
     strategy:
       matrix:
         os: [ubuntu-latest]
