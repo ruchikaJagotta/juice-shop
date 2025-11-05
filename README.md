@@ -60,6 +60,6 @@ npx playwright test tests/auth.spec.js
 ```bash
   npx playwright show-report
 ```
-The application will be available at `http://localhost:9323/`
+Report will be available at `http://localhost:9323/`
 
-Other reporters could be configured with playwright reporter like `allure`. 
+Other reporters could be configured with playwright reporter like `allure` for enhanced reporting and trends.
